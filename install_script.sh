@@ -1,27 +1,10 @@
 #!/bin/bash
 
-# Switches:
-#   --noconfirm -> headless install
-#   --reinstall -> force reinstall of existing packages
-#   --dotfiles  -> specify folder for dotfiles symlinks (Default home)
-#   --dry       -> echo only run
+# Colorful output in terminals that support colors.
+# Ripped straight from SO.
 
-# Add a possibility to easily exclude packages(files with lists or smth)
-# Add a possibility to pass params to pacman
-
-# Main repo packages list:
-# stow - must have -> creates symlinks for all dotfiles in the home dir
-# git, git-lfs, python, python-pip, cmake, cppcheck, clang, texlive-most,
-# firefox, vim,
-
-# User repo packages list:
-# vscode, fzf, polybar, spotify
-
-# Ripped straight from SO
-if test -t 1; then
-
+if [[ -t 1 ]]; then
     ncolors=$(tput colors)
-
     if test -n "$ncolors" && test $ncolors -ge 8; then
         bold="$(tput bold)"
         normal="$(tput sgr0)"
@@ -36,14 +19,45 @@ if test -t 1; then
     fi
 fi
 
-echo "${bold}${green} Updating pacman mirrors & packages${normal}"
-pacman -Syu --noconfirm
-echo "${bold}${green} Installing stow${normal}"
-pacman -S --noconfirm stow
+# Switches:
+#   --noconfirm  -> headless install
+#   --skipupdate -> skip pacman -Syu
+#   --dotfiles   -> specify folder for dotfiles symlinks (Default home)
+#   --dry        -> echo only run
+#   --force      -> force stow to overwrite existing symlinks
 
-echo "${bold}${green} Creating symlinks in home to ~/.dotfiles/${normal}"
+stow_install() {
+    superuser=$1
+    skip_update=$2
+
+    echo "${bold}${green} ---> Updating pacman mirrors & packages${normal}"
+
+    if [[ $skip_update == "" ]]; then
+        $superuser pacman -Syu --noconfirm
+    fi
+
+    if [[ $(echo $?) -ne 0 ]]; then
+        echo "${bold}${red} ---> [Error]${normal} Pacman failed to update."
+        exit 1
+    fi
+
+    echo "${bold}${green} ---> Installing stow${normal}"
+
+    $superuser pacman -S --noconfirm stow
+    if [[ $(echo $?) -ne 0 ]]; then
+        echo "${bold}${red} ---> [Error]${normal} Pacman failed to install stow."
+        exit 1
+    fi
+}
+
+if [ "$EUID" -ne 0 ]; then
+    stow_install "sudo"
+else
+    stow_install
+fi
+
+echo "${bold}${green} ---> Creating symlinks in home to ~/.dotfiles/${normal}"
 mkdir -p ~/.dotfiles
 cp -r ./dotfiles/ ~/.dotfiles
 cd ~/.dotfiles
 stow .
-ls -a ~/
