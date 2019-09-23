@@ -7,5 +7,5 @@ Stow:
   stage: test
   script:
     - chmod +x ./install_script.sh ./test/test_stow.sh
-    - ./install_script.sh
+    - ./install_script.sh -n
     - ./test_stow.sh
