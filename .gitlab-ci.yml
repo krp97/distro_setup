@@ -1,8 +1,5 @@
 image: archlinux/base
 
-before_script:
-  - echo "hello"
-
 stages:
   - test
 
