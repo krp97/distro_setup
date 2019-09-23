@@ -98,7 +98,7 @@ shift $((OPTIND - 1))
 if [ "$EUID" -ne 0 ]; then
     stow_install "sudo" $pacman_args
 else
-    stow_install $pacman_args
+    stow_install "" $pacman_args
 fi
 
 echo "${bold}${green} ---> Creating symlinks in home to ~/.dotfiles/${normal}"
