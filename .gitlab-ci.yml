@@ -3,8 +3,9 @@ image: archlinux/base
 stages:
   - test
 
-Test run:
+Stow:
   stage: test
   script:
-    - chmod +x ./install_script.sh
-    - ./install_script.sh
+    - chmod +x ./install_script.sh ./test/test_stow.sh
+    - ./install_script.sh -n
+    - ./test/test_stow.sh
