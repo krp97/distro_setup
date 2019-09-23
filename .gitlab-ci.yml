@@ -1,0 +1,13 @@
+image: archlinux/base
+
+before_script:
+  - echo "hello"
+
+stages:
+  - test
+
+Test run:
+  stage: test
+  script:
+    - chmod +x ./install_script.sh
+    - ./install_script.sh
