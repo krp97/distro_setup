@@ -1,6 +1,6 @@
 # Custom cd for `cd && ls` ripped straight from StackO.
 
-function cd(){
+function cd() {
 	new_directory="$*"
 	if [ $# -eq 0 ]; then
 		new_directory=${HOME}
