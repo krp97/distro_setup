@@ -18,5 +18,5 @@
 # vscode, fzf, polybar, spotify
 pacman -Syu --noconfirm
 pacman -S --noconfirm stow
-stow ./dotfiles
+stow dotfiles
 ls ~/
