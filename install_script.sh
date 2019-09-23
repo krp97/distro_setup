@@ -55,6 +55,7 @@ stow_install() {
         echo "${bold}${yellow} ---# Skipping pacman update${normal}"
     else
         echo "${bold}${green} ---> Updating pacman mirrors & packages${normal}"
+        echo "$superuser pacman -Syu $args --needed"
         $superuser pacman -Syu $args --needed
         exit_on_error "${bold}${red} ---> [Error]${normal} Pacman failed to update."
     fi
@@ -71,10 +72,9 @@ stow_install() {
 
 while getopts ":nsd:efh" opt; do
     case ${opt} in
-    n) no_confirm=true ;;
+    n) pacman_args="--noconfirm" ;;
     s)
         skip_pacman_update=true
-        pacman_skip="--noconfirm"
         ;;
     d) path=$OPTARG ;;
     e)
@@ -96,9 +96,9 @@ done
 shift $((OPTIND - 1))
 
 if [ "$EUID" -ne 0 ]; then
-    stow_install "sudo" $pacman_skip
+    stow_install "sudo" $pacman_args
 else
-    stow_install $pacman_skip
+    stow_install $pacman_args
 fi
 
 echo "${bold}${green} ---> Creating symlinks in home to ~/.dotfiles/${normal}"
