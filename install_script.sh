@@ -19,6 +19,7 @@
 pacman -Syu --noconfirm
 pacman -S --noconfirm stow
 mkdir -p ~/.dotfiles
+ls
 cp -r ./dotfiles/* ~/.dotfiles
 cd ~/.dotfiles
 stow .
