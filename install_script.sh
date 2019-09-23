@@ -18,5 +18,8 @@
 # vscode, fzf, polybar, spotify
 pacman -Syu --noconfirm
 pacman -S --noconfirm stow
-stow dotfiles
+mkdir -p ~/.dotfiles
+cp -r ./dotfiles/* ~/.dotfiles
+cd ~/.dotfiles
+stow .
 ls ~/
