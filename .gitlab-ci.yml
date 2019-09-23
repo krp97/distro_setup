@@ -3,13 +3,9 @@ image: archlinux/base
 stages:
   - test
 
-Dry run:
+Stow:
   stage: test
   script:
-    - chmod +x ./install_script.sh
+    - chmod +x ./install_script.sh ./test/test_stow.sh
     - ./install_script.sh
-
-Full run:
-  stage: test
-  script:
-    - echo "Not quite yet"
+    - ./test_stow.sh
