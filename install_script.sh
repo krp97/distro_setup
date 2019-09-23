@@ -16,6 +16,7 @@
 
 # User repo packages list:
 # vscode, fzf, polybar, spotify
+pacman -Syu --noconfirm
 pacman -S --noconfirm stow
 stow ./dotfiles
 ls ~/
