@@ -1,5 +1,7 @@
 image: archlinux/base
 
+before_script:
+    - pacman -Syyu --noconfirm
 stages:
   - test
 
