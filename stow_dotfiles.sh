@@ -88,9 +88,7 @@ else
     stow_install "" $pacman_args
 fi
 
-echo "${bold}${green} ---> Creating symlinks in home to ~/.dotfiles/${normal}"
-mkdir -p ~/.dotfiles
-cp -a ./dotfiles/. ~/.dotfiles/
-cd ~/.dotfiles
+current_dir=$(realpath $(dirname $0))
 
-stow . -t ~/ $stow_params
+echo "${bold}${green} ---> Creating symlinks in home to $current_dir ${normal}"
+stow dotfiles -t ~/ $stow_params
