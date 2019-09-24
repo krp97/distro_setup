@@ -10,4 +10,4 @@ Stow:
   script:
     - chmod +x ./stow_dotfiles.sh ./test/test_stow.sh
     - ./stow_dotfiles.sh -n
-    - ./test_stow.sh
+    - ./test/test_stow.sh
