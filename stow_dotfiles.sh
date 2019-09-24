@@ -33,7 +33,6 @@ usage() {
     printf "\t%2s \t%s\n" " " "Do note that pacman also won't ask for sudo password,"
     printf "\t%2s \t%s\n\n" " " "so you have to run the script with elevated privileges."
 
-    printf "\t%2s \t%s\n" "${bold}${white}-s${normal}" "Skips pacman -Syu."
     printf "\t%2s \t%s\n" "${bold}${white}-d${normal}" "Specify the path to symlinks directory (Default: home)."
     printf "\t%2s \t%s\n" "${bold}${white}-e${normal}" "Do not make any changes (echo only run)."
     printf "\t%2s \t%s\n" "${bold}${white}-f${normal}" "Force overwriting symlinks in the destination path."
@@ -51,15 +50,6 @@ stow_install() {
     superuser=$1
     args=$2
 
-    if $skip_pacman_update; then
-        echo "${bold}${yellow} ---# Skipping pacman update${normal}"
-    else
-        echo "${bold}${green} ---> Updating pacman mirrors & packages${normal}"
-        echo "$superuser pacman -Syu $args --needed"
-        $superuser pacman -Syu $args --needed
-        exit_on_error "${bold}${red} ---> [Error]${normal} Pacman failed to update."
-    fi
-
     pacman -Qi stow >/dev/null
     if [[ $(echo $?) -eq 0 ]]; then
         echo "${bold}${yellow} ---# Skipping stow install (package already present)${normal}"
@@ -73,9 +63,6 @@ stow_install() {
 while getopts ":nsd:efh" opt; do
     case ${opt} in
     n) pacman_args="--noconfirm" ;;
-    s)
-        skip_pacman_update=true
-        ;;
     d) path=$OPTARG ;;
     e)
         dry_run=true
