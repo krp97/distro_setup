@@ -16,6 +16,26 @@ if [[ -t 1 ]]; then
     fi
 fi
 
+p_error() {
+    echo -e "${bold}${red} ---> [Error]${white} $1${normal}"
+}
+
+p_info_msg() {
+    echo -e "${bold}${green}--->${white} $1${normal}"
+}
+
+p_warning() {
+    echo -e "${bold}${yellow}--->${white} $1${normal}"
+}
+
+p_found_msg() {
+    echo -e "$2${bold}${blue}--->${white} $1${normal}"
+}
+
+p_not_found_msg() {
+    echo -e "$2${yellow}${bold}---# ${white}$1${normal}"
+}
+
 usage() {
     printf "Usage:\n"
     printf "\t%2s \t%s\n" "${bold}${white}-n${normal}" "No confirmation will be asked from user during script execution."
@@ -24,6 +44,8 @@ usage() {
 
     printf "\t%2s \t%s\n" "${bold}${white}-e${normal}" "Do not make any changes (echo only run)."
 }
+
+dry_run=false
 
 while getopts ":nsd:efh" opt; do
     case ${opt} in
@@ -39,14 +61,32 @@ while getopts ":nsd:efh" opt; do
         exit 0
         ;;
     *)
-        echo "${bold}${red} ---> [Error] Invalid argument $OPTARG"
+        p_error "[Error] Invalid argument $OPTARG"
         usage
         exit 1
         ;;
     esac
 done
 
-printf "${bold}${green}---> Installing base packages\n${normal}"
+p_info_msg "Installing base packages"
+
+base_install() {
+    superuser=$1
+    params=$2
+    declare -a base_p
+    IFS=$'\n' read -d '' -r -a base_p <./base_packages
+
+    if $dry_run; then
+        p_warning "Dry run mode --- skipping install"
+    else
+        $superuser pacman -S --needed $params ${base_p[@]}
+    fi
+
+    if [[ $(echo $?) -ne 0 ]]; then
+        p_error "Some packages in base_packages could not be installed."
+        exit 1
+    fi
+}
 
 if [ "$EUID" -ne 0 ]; then
     base_install "sudo" $pacman_args
@@ -54,10 +94,63 @@ else
     base_install "" $pacman_args
 fi
 
-base_install() {
-    superuser=$1
-    params=$2
-    $superuser pacman -S --needed $params $(cat base_packages)
+p_info_msg "Installing base packages --- done"
+
+# Wrap this section with an option that's disabled by default
+echo "${bold}${yellow}--------------* Danger zone *--------------"
+p_warning "Installing packages from AUR"
+p_info_msg "Checking for pacman wrappers"
+
+pacman_wrapper=''
+
+verify_wrappers() {
+    commands=(pacaur pakku pikaur)
+    for element in ${commands[@]}; do
+        command -v $element >/dev/null
+        if [[ $(echo $?) -ne 0 ]]; then
+            p_not_found_msg "$element not found" "\t"
+        else
+            p_found_msg "${white}$element found" "\t"
+            pacman_wrapper=$element
+        fi
+    done
 }
 
-printf "${bold}${green}---> Installing base packages --- done\n${normal}"
+verify_wrappers
+if [[ $pacman_wrapper == "" ]]; then
+    p_error "No pacman wrappers found."
+    exit 1
+else
+    p_info_msg "Using $pacman_wrapper to install user packages"
+fi
+
+p_info_msg "Verifying packages from user_packages file"
+
+verify_packages() {
+    for package in ${user_p[@]}; do
+        $pacman_wrapper -Qi $package &>/dev/null
+        if [[ $(echo $?) -ne 0 ]]; then
+            p_not_found_msg "$package not found -- removing from list" "\t"
+            user_p=("${user_p[@]/$package/}")
+        else
+            p_found_msg "${white}$package found" "\t"
+        fi
+    done
+}
+
+declare -a user_p
+IFS=$'\n' read -d '' -r -a user_p <./user_packages
+
+verify_packages
+p_info_msg "Installing user packages"
+
+if $dry_run; then
+    p_warning "Dry run mode --- skipping install"
+else
+    $pacman_wrapper -S ${user_p[@]} --needed $pacman_args
+
+    if [[ $(echo $?) -ne 0 ]]; then
+        p_error "Some packages could not be installed."
+        exit 1
+    fi
+fi
