@@ -16,6 +16,37 @@ if [[ -t 1 ]]; then
     fi
 fi
 
-[[ -L ~/.vimrc ]] && echo "${bold}${green} Pass --- .vimrc present"
-[[ -L ~/.dmenurc ]] && echo "${bold}${green} Pass --- .dmenurc present"
-[[ -L ~/.Xresources ]] && echo "${bold}${green} Pass --- .Xresources present"
+pass() {
+    msg=$1
+    echo "${bold}${green} Pass ---> ${normal}$msg"
+}
+
+fail() {
+    msg=$1
+    echo "${bold}${red} Fail ---# ${normal}$msg"
+}
+
+exit_code=0
+
+if [[ -L ~/.vimrc ]]; then
+    pass ".vimrc present"
+else
+    exit_code=1
+    fail ".vimrc file doesn't exist"
+fi
+
+if [[ -L ~/.dmenurc ]]; then
+    pass ".dmenurc present"
+else
+    exit_code=1
+    fail ".dmenurc file doesn't exist"
+fi
+
+if [[ -L ~/.Xresources ]]; then
+    pass ".Xresources present"
+else
+    exit_code=1
+    fail ".Xresources file doesn't exist"
+fi
+
+exit $exit_code
