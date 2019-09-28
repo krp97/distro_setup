@@ -8,3 +8,5 @@ cppcheck
 texlive-most 
 python 
 python-pip
+ksysguard
+qt5-base
