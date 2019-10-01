@@ -39,7 +39,7 @@ p_not_found_msg() {
 usage() {
     printf "Usage:\n"
     printf "\t%2s \t%s\n" "${bold}${white}-n${normal}" "No confirmation will be asked from user during script execution."
-    printf "\t%2s \t%s\n" " " "Do note that pacman also won't ask for sudo password,"
+    printf "\t%2s \t%s\n" " " "Do note that pacman will need root permissions,"
     printf "\t%2s \t%s\n\n" " " "so you have to run the script with elevated privileges."
 
     printf "\t%2s \t%s\n" "${bold}${white}-e${normal}" "Do not make any changes (echo only run)."
@@ -96,7 +96,6 @@ fi
 
 p_info_msg "Installing base packages --- done"
 
-# Wrap this section with an option that's disabled by default
 echo "${bold}${yellow}--------------* Danger zone *--------------"
 p_warning "Installing packages from AUR"
 p_info_msg "Checking for pacman wrappers"
@@ -104,7 +103,7 @@ p_info_msg "Checking for pacman wrappers"
 pacman_wrapper=''
 
 verify_wrappers() {
-    commands=(pacaur pakku pikaur)
+    commands=(pacaur pakku pikaur yay)
     for element in ${commands[@]}; do
         command -v $element >/dev/null
         if [[ $(echo $?) -ne 0 ]]; then
@@ -112,6 +111,7 @@ verify_wrappers() {
         else
             p_found_msg "${white}$element found" "\t"
             pacman_wrapper=$element
+            break
         fi
     done
 }
