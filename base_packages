@@ -1,5 +1,4 @@
 rofi 
-git 
 cmake 
 gtest 
 clang 
@@ -10,3 +9,4 @@ python
 python-pip
 ksysguard
 qt5-base
+fzf
