@@ -1,12 +1,14 @@
 # Distro setup
 
 A bunch of bash scripts that will automate the work of installing all necessary packages and moving dotfiles around. Written to ease the process of setting up a clean distro.
-The polybar and rofi configs are not my work and can be found here:
+The polybar, rofi and Xresoures configs are slightly altered versions of those that can be found here: 
 
 - [polybar](https://github.com/adi1090x/polybar-themes)
 - [rofi](https://github.com/davatorium/rofi-themes)
+- [Xresources](https://github.com/logico-dev/Xresources-themes)
 
 Additionally the `.bashrc` script is just a cut down version of the one from the community Manjaro-i3 distro.
+
 ## Installing packages
 
 The `install.sh` script will install all packages listed in the `base_packages` file and then attempt to install those from `user_packages`. User packages are installed using a pacman wrapper, so in order to execute that part of the script you will need to manually install one of these:
@@ -51,5 +53,7 @@ All operations aborted.
 ```
 
 In this mode a `--simulate` argument will be passed to stow, so you can see whether the symlinks can be successfully created in your home directory.
+
+If you do not like a particular dotfile simply move it outside of `dotfiles/` directory, and stow will not create a symlink to it in your `~/`.
 
 For more information on additional options you can pass a `-h` option to both scripts.
