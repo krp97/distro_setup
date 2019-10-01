@@ -95,8 +95,8 @@ echo "${bold}${green} ---> Creating symlinks in home to $current_dir ${normal}"
 
 if $force_overwrite; then
     echo "${bold}${green} ---> ${white}Checking for conflicts with stow${normal}"
-    stow dotfiles -t ~/ \
-        $stow_params -n 2> >(grep -E "\.\w+$" -o) |
+    stow dotfiles -t $path_to_links \
+        $stow_params -n --dotfiles 2> >(grep -E "\.\w+$" -o) |
         while read file_to_rm; do
             if $dry_run; then
                 echo "${bold}${yellow} ---> ${white}Dry run --- Overwriting $path_to_links/$file_to_rm"
@@ -109,5 +109,5 @@ if $force_overwrite; then
 fi
 
 if ! $dry_run; then
-    stow dotfiles -t $path_to_links $stow_params
+    stow dotfiles -t $path_to_links $stow_params --dotfiles
 fi
