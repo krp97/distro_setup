@@ -1,3 +1,4 @@
+# Custom aliases
 alias ll="ls -l"
 
 # You're gonna need fzf for this one.

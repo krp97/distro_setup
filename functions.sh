@@ -1,4 +1,4 @@
-# Custom cd for `cd && ls` ripped straight from StackO.
+# Custom functions
 
 function cd() {
 	new_directory="$*"
