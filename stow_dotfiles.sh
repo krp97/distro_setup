@@ -68,7 +68,7 @@ while getopts ":nsd:efh" opt; do
         dry_run=true
         stow_params=$stow_params"--simulate"
         ;;
-    f) stow_params=$stow_params"--override=." ;;
+    f) force_overwrite=true ;;
     h)
         usage
         exit 0
@@ -89,6 +89,25 @@ else
 fi
 
 current_dir=$(realpath $(dirname $0))
+path_to_links=~/
 
 echo "${bold}${green} ---> Creating symlinks in home to $current_dir ${normal}"
-stow dotfiles -t ~/ $stow_params
+
+if $force_overwrite; then
+    echo "${bold}${green} ---> ${white}Checking for conflicts with stow${normal}"
+    stow dotfiles -t ~/ \
+        $stow_params -n 2> >(grep -E "\.\w+$" -o) |
+        while read file_to_rm; do
+            if $dry_run; then
+                echo "${bold}${yellow} ---> ${white}Dry run --- Overwriting $path_to_links/$file_to_rm"
+
+            else
+                echo "${bold}${yellow} ---> ${white}Overwriting $file_to_rm"
+                rm -r $path_to_links/$file_to_rm
+            fi
+        done
+fi
+
+if ! $dry_run; then
+    stow dotfiles -t $path_to_links $stow_params
+fi
