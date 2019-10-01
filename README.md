@@ -1,6 +1,6 @@
 # Distro setup
 
-A bunch of bash scripts that will automate the work of installing all of the necessary packages and dotfiles on a fresh distro. Polybar, Rofi and Xresoures files are premade configs with slightly altered color schemes. The original files and much more can be found here:
+A bunch of bash scripts that will automate the work of installing all of the necessary packages and dotfiles on a fresh ArchLinux based distro. Polybar, Rofi and Xresoures files are premade configs with slightly altered color schemes. The original files and much more can be found here:
 
 - [polybar](https://github.com/adi1090x/polybar-themes)
 - [rofi](https://github.com/davatorium/rofi-themes)
