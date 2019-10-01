@@ -6,6 +6,7 @@ The polybar and rofi configs are not my work and can be found here:
 - [polybar](https://github.com/adi1090x/polybar-themes)
 - [rofi](https://github.com/davatorium/rofi-themes)
 
+Additionally the `.bashrc` script is just a cut down version of the one from the community Manjaro-i3 distro.
 ## Installing packages
 
 The `install.sh` script will install all packages listed in the `base_packages` file and then attempt to install those from `user_packages`. User packages are installed using a pacman wrapper, so in order to execute that part of the script you will need to manually install one of these:
@@ -49,6 +50,6 @@ All operations aborted.
 
 ```
 
-In this mode a `--simulate` argument will be passed to stow, so you can see whether the symlinks can be successfully created in you home directory.
+In this mode a `--simulate` argument will be passed to stow, so you can see whether the symlinks can be successfully created in your home directory.
 
 For more information on additional options you can pass a `-h` option to both scripts.
