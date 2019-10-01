@@ -52,11 +52,11 @@ stow_install() {
 
     pacman -Qi stow >/dev/null
     if [[ $(echo $?) -eq 0 ]]; then
-        echo "${bold}${yellow} ---# Skipping stow install (package already present)${normal}"
+        echo "${bold}${yellow} ---# ${white}Skipping stow install (package already present)${normal}"
     else
-        echo "${bold}${green} ---> Installing stow${normal}"
+        echo "${bold}${green} ---> ${white}Installing stow${normal}"
         $superuser pacman -S $args stow --needed
-        exit_on_error "${bold}${red} ---> [Error]${normal} Pacman failed to install stow."
+        exit_on_error "${bold}${red} ---> [Error]${white} Pacman failed to install stow.${normal}"
     fi
 }
 
@@ -74,7 +74,7 @@ while getopts ":nsd:efh" opt; do
         exit 0
         ;;
     *)
-        echo "${bold}${red} ---> [Error] Invalid argument $OPTARG"
+        echo "${bold}${red} ---> ${white}[Error] Invalid argument $OPTARG ${normal}"
         usage
         exit 1
         ;;
@@ -91,23 +91,24 @@ fi
 current_dir=$(realpath $(dirname $0))
 path_to_links=~/
 
-echo "${bold}${green} ---> Creating symlinks in home to $current_dir ${normal}"
+echo "${bold}${green} ---> ${white}Creating symlinks in home to $current_dir ${normal}"
 
 if $force_overwrite; then
     echo "${bold}${green} ---> ${white}Checking for conflicts with stow${normal}"
     stow dotfiles -t $path_to_links \
-        $stow_params -n --dotfiles 2> >(grep -E "\.\w+$" -o) |
+        $stow_params -n --dotfiles 2> >(grep -E ":\s(\.?[a-zA-Z.]+$)" -o) | cut -c 3- |
         while read file_to_rm; do
             if $dry_run; then
-                echo "${bold}${yellow} ---> ${white}Dry run --- Overwriting $path_to_links/$file_to_rm"
-
+                echo "${bold}${yellow} ---> ${white}Dry run --- Overwriting $path_to_links/$file_to_rm ${normal}"
             else
-                echo "${bold}${yellow} ---> ${white}Overwriting $file_to_rm"
+                echo "${bold}${yellow} ---> ${white}Overwriting $file_to_rm ${normal}"
                 rm -r $path_to_links/$file_to_rm
             fi
         done
 fi
 
-if ! $dry_run; then
+if ! $dry_run && [[ $(echo $?) -eq 0 ]]; then
     stow dotfiles -t $path_to_links $stow_params --dotfiles
 fi
+
+echo "${bold}${green} ---> ${white}All done ${normal}"
