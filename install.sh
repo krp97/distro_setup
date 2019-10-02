@@ -17,7 +17,7 @@ if [[ -t 1 ]]; then
 fi
 
 p_error() {
-    echo -e "${bold}${red} ---> [Error]${white} $1${normal}"
+    echo -e "${bold}${red}---> [Error]${white} $1${normal}"
 }
 
 p_info_msg() {
@@ -102,7 +102,6 @@ p_info_msg "Installing base packages --- done"
 ! $install_user_packages && exit 0
 
 echo "${bold}${yellow}--------------* Danger zone *--------------"
-p_warning "Installing packages from AUR"
 p_info_msg "Checking for pacman wrappers"
 
 pacman_wrapper=''
@@ -125,8 +124,6 @@ verify_wrappers
 if [[ $pacman_wrapper == "" ]]; then
     p_error "No pacman wrappers found."
     exit 1
-else
-    p_info_msg "Using $pacman_wrapper to install user packages"
 fi
 
 p_info_msg "Verifying packages from user_packages file"
@@ -147,7 +144,7 @@ declare -a user_p
 IFS=$'\n' read -d '' -r -a user_p <./user_packages
 
 verify_packages
-p_info_msg "Installing user packages"
+p_info_msg "Installing user packages with $pacman_wrapper"
 
 if $dry_run; then
     p_warning "Dry run mode --- skipping install"
