@@ -73,3 +73,4 @@ shopt -s histappend
 [ -f ~/aliases.sh ] && source ~/aliases.sh
 [ -f ~/functions.sh ] && source ~/functions.sh
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+PATH=$PATH:~/myscripts
