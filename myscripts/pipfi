@@ -4,8 +4,9 @@ if [[ ! -f ~/ignore_requirements.txt ]]; then
     echo "No ignore_requirements.txt file found ~/"
 fi
 
+# Build a regex for grep filtering
 ignores=$(cat ~/ignore_requirements.txt | tr "\n" "|")
-ignores=${ignores: : -1}
+ignores=${ignores::-1}
 ignores=$(echo $ignores | tr -d '[:space:]')
 
 while read line; do

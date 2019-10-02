@@ -79,6 +79,7 @@ base_install() {
     if $dry_run; then
         p_warning "Dry run mode --- skipping install"
     else
+        $superuser pacman -Sy $args
         $superuser pacman -S --needed $params ${base_p[@]}
     fi
 

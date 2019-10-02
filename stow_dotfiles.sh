@@ -55,6 +55,7 @@ stow_install() {
         echo "${bold}${yellow} ---# ${white}Skipping stow install (package already present)${normal}"
     else
         echo "${bold}${green} ---> ${white}Installing stow${normal}"
+        $superuser pacman -Sy $args
         $superuser pacman -S $args stow --needed
         exit_on_error "${bold}${red} ---> [Error]${white} Pacman failed to install stow.${normal}"
     fi
