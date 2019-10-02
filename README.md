@@ -10,7 +10,7 @@ Additionally the `.bashrc` script is just a stripped down version of the Manjaro
 
 ## Installing packages
 
-The `install.sh` script will attempt to install all packages listed in the `base_packages` & `user_packages` files. User packages are installed using a pacman wrapper, so in order to execute that part of the script you will need to manually install one of these:
+The `install.sh` script will attempt to install all packages listed in the `base_packages` & `user_packages` files. User packages are installed using a pacman wrapper, so in order to execute that part of the script you will need to pass the `-u` option and manually (for now) install one of these:
 
 - pacaur
 - pakku

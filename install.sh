@@ -46,8 +46,9 @@ usage() {
 }
 
 dry_run=false
+install_user_packages=false
 
-while getopts ":nsd:efh" opt; do
+while getopts ":nsud:efh" opt; do
     case ${opt} in
     n) pacman_args="--noconfirm" ;;
     d) path=$OPTARG ;;
@@ -56,6 +57,7 @@ while getopts ":nsd:efh" opt; do
         stow_params=$stow_params"--simulate"
         ;;
     f) stow_params=$stow_params"--override=." ;;
+    u) install_user_packages=true ;;
     h)
         usage
         exit 0
@@ -96,6 +98,8 @@ else
 fi
 
 p_info_msg "Installing base packages --- done"
+
+! $install_user_packages && exit 0
 
 echo "${bold}${yellow}--------------* Danger zone *--------------"
 p_warning "Installing packages from AUR"
