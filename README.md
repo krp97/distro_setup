@@ -39,10 +39,10 @@ $ ./install.sh -e
 
 ## Dotfiles
 
-The `stow_dotfiles.sh` script will create symlinks in your home directory pointing to all files in the `dotfiles/` directory. Similarly to the previous script, you might want to do an echo only run, as such:
+The `run_stow.sh` script will create symlinks in your home directory pointing to all files in the `dotfiles/` directory. Similarly to the previous script, you might want to do an echo only run, as such:
 
 ```
-$ ./stow_dotfiles.sh -e
+$ ./run_stow.sh -e
  ---# Skipping stow install (package already present)
  ---> Creating symlinks in home to /home/desktop/Desktop/git/distro_setup
  ---> Checking for file conflicts
@@ -52,7 +52,7 @@ $ ./stow_dotfiles.sh -e
 You can overwrite already existing configs by passing the `-f` option:
 
 ```
-$ ./stow_dotfiles.sh -e -f
+$ ./run_stow.sh -e -f
  ---# Skipping stow install (package already present)
  ---> Creating symlinks in home to /home/desktop/Desktop/git/distro_setup
  ---> Checking for conflicts with stow
