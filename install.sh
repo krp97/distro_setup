@@ -97,8 +97,6 @@ else
     base_install "" $pacman_args
 fi
 
-p_info_msg "Installing base packages --- done"
-
 ! $install_user_packages && exit 0
 
 echo "${bold}${yellow}--------------* Danger zone *--------------"
