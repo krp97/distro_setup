@@ -20,7 +20,7 @@ The `install.sh` script will attempt to install all packages listed in the `base
 If you would like to run the script without making any changes, use the `-e` option:
 
 ```
-$ ./install.sh -e
+$ ./install.sh -e -u
 ---> Installing base packages
 ---> Dry run mode --- skipping install
 ---> Installing base packages --- done
@@ -39,7 +39,7 @@ $ ./install.sh -e
 
 ## Dotfiles
 
-The `run_stow.sh` script will create symlinks in your home directory pointing to all files in the `dotfiles/` directory. Similarly to the previous script, you might want to do an echo only run, as such:
+The `run_stow.sh` script will create symlinks in your home directory pointing to all files in the `dotfiles/` directory. Similarly to the previous script, you might want to do an echo only run:
 
 ```
 $ ./run_stow.sh -e
@@ -65,7 +65,7 @@ $ ./run_stow.sh -e -f
  ---> All done
 ```
 
-Warning: Keep in mind that this will replace all conflicting files, with symlinks to dotfiles in the repository (unless you pass the `-e` option).
+Keep in mind that this will replace all conflicting files, with symlinks to dotfiles in the repository. All overwritten files will be stored in the `backup/` directory at the top of the repo source tree.
 
 If you do not like a particular dotfile, simply move it outside of the `dotfiles/` directory.
 
