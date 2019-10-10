@@ -93,7 +93,6 @@ current_dir=$(realpath $(dirname $0))
 path_to_links=~/
 
 echo "${bold}${green} ---> ${white}Creating symlinks in home to $current_dir ${normal}"
-
 if $force_overwrite; then
     echo "${bold}${green} ---> ${white}Checking for conflicts with stow${normal}"
     stow dotfiles -t $path_to_links \
@@ -103,9 +102,14 @@ if $force_overwrite; then
                 echo "${bold}${yellow} ---> ${white}Dry run --- Overwriting $path_to_links/$file_to_rm ${normal}"
             else
                 echo "${bold}${yellow} ---> ${white}Overwriting $file_to_rm ${normal}"
-                rm -r $path_to_links/$file_to_rm
+                mkdir -p backup
+                mv $path_to_links/$file_to_rm $current_dir/backup/
             fi
         done
+fi
+
+if [[ -d $current_dir/backup ]]; then
+    echo "${bold}${yellow} ---> ${white} All overwritten files backed up to $current_dir/backup.${normal}"
 fi
 
 if ! $dry_run && [[ $(echo $?) -eq 0 ]]; then

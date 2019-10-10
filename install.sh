@@ -43,6 +43,7 @@ usage() {
     printf "\t%2s \t%s\n\n" " " "so you have to run the script with elevated privileges."
 
     printf "\t%2s \t%s\n" "${bold}${white}-e${normal}" "Do not make any changes (echo only run)."
+    printf "\t%2s \t%s\n" "${bold}${white}-u${normal}" "Enable installation of user packages."
 }
 
 dry_run=false
@@ -96,8 +97,6 @@ if [ "$EUID" -ne 0 ]; then
 else
     base_install "" $pacman_args
 fi
-
-p_info_msg "Installing base packages --- done"
 
 ! $install_user_packages && exit 0
 
