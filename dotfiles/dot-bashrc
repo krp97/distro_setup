@@ -73,4 +73,8 @@ shopt -s histappend
 [ -f ~/aliases.sh ] && source ~/aliases.sh
 [ -f ~/functions.sh ] && source ~/functions.sh
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+export FZF_ALT_C_COMMAND='fd --type d'
+export FZF_CTRL_T_COMMAND='fd --type f'
+
 PATH=$PATH:~/myscripts
