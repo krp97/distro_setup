@@ -76,5 +76,6 @@ shopt -s histappend
 
 export FZF_ALT_C_COMMAND='fd --type d'
 export FZF_CTRL_T_COMMAND='fd --type f'
+export TIME_KEEPER_DIR='~/.config/time_keeper'
 
 PATH=$PATH:~/myscripts

@@ -2,8 +2,7 @@ from datetime import datetime, date
 import os
 from sys import exit
 
-TMP_FILE_DIR = os.path.expanduser(
-    '~/time_keeper')  # make that an input argument
+TMP_FILE_DIR = os.path.expanduser(os.environ['TIME_KEEPER_DIR']) 
 TMP_FILE_PATH = os.path.join(TMP_FILE_DIR, 'checkin_tmp')
 LEDGER_PATH = os.path.join(TMP_FILE_DIR, 'ledger')
 
@@ -28,8 +27,9 @@ def main():
         today = date.today().strftime("%d/%m/%Y")
         with open(LEDGER_PATH, 'a+') as f:
             f.write(f"{today} -- {hours}:{minutes}\n")
+        os.remove(TMP_FILE_PATH)
         print(
-            f"---> Checkout out {hours} hours and {minutes} minutes on {today}.")
+            f"---> Checked out {hours} hours and {minutes} minutes on {today}.")
 
 
 if __name__ == "__main__":
