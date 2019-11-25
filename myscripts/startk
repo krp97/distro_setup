@@ -1,3 +1,5 @@
+#!/bin/python
+
 from datetime import datetime
 import os
 from sys import exit

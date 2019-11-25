@@ -7,9 +7,10 @@
 
 no_confirm=false
 skip_pacman_update=false
-dotfile_path='~/'
+home_path='~/'
 dry_run=false
 force_overwrite=false
+install_scripts=false
 
 if [[ -t 1 ]]; then
     ncolors=$(tput colors)
@@ -36,6 +37,7 @@ usage() {
     printf "\t%2s \t%s\n" "${bold}${white}-d${normal}" "Specify the path to symlinks directory (Default: home)."
     printf "\t%2s \t%s\n" "${bold}${white}-e${normal}" "Do not make any changes (echo only run)."
     printf "\t%2s \t%s\n" "${bold}${white}-f${normal}" "Force overwriting symlinks in the destination path."
+    printf "\t%2s \t%s\n" "${bold}${white}-c${normal}" "Install custom scripts. (pipfi, time_keeper)"
 }
 
 exit_on_error() {
@@ -70,6 +72,7 @@ while getopts ":nsd:efh" opt; do
         stow_params=$stow_params"--simulate"
         ;;
     f) force_overwrite=true ;;
+    c) install_scripts=true ;;
     h)
         usage
         exit 0
@@ -90,20 +93,19 @@ else
 fi
 
 current_dir=$(realpath $(dirname $0))
-path_to_links=~/
 
 echo "${bold}${green} ---> ${white}Creating symlinks in home to $current_dir ${normal}"
 if $force_overwrite; then
     echo "${bold}${green} ---> ${white}Checking for conflicts with stow${normal}"
-    stow dotfiles -t $path_to_links \
+    stow dotfiles -t $home_path \
         $stow_params -n --dotfiles 2> >(grep -E ":\s(\.?[a-zA-Z.]+$)" -o) | cut -c 3- |
         while read file_to_rm; do
             if $dry_run; then
-                echo "${bold}${yellow} ---> ${white}Dry run --- Overwriting $path_to_links/$file_to_rm ${normal}"
+                echo "${bold}${yellow} ---> ${white}Dry run --- Overwriting $home_path/$file_to_rm ${normal}"
             else
                 echo "${bold}${yellow} ---> ${white}Overwriting $file_to_rm ${normal}"
                 mkdir -p backup
-                mv $path_to_links/$file_to_rm $current_dir/backup/
+                mv $home_path/$file_to_rm $current_dir/backup/
             fi
         done
 fi
@@ -113,7 +115,11 @@ if [[ -d $current_dir/backup ]]; then
 fi
 
 if ! $dry_run && [[ $(echo $?) -eq 0 ]]; then
-    stow dotfiles -t $path_to_links $stow_params --dotfiles
+    stow dotfiles -t $home_path $stow_params --dotfiles
+fi
+
+if $install_scripts; then
+    ln -s "$current_dir/myscripts" "$home_path/myscripts"
 fi
 
 echo "${bold}${green} ---> ${white}All done ${normal}"
