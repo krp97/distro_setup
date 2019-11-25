@@ -12,3 +12,5 @@ alias gogit='cd ~/Desktop/git'
 alias df='df -h'
 alias more='less'
 alias np='nano -w PKGBUILD'
+
+alias cl='urxvt &'
