@@ -10,3 +10,6 @@ python-pip
 ksysguard
 qt5-base
 fzf
+ripgrep
+fd
+
