@@ -1,0 +1,40 @@
+conky.config = {
+    font = 'FuraCode Nerd Font:pixelsize=15',
+    use_xft = true,
+    xftalpha = 1.0,
+    background=true,
+    update_interval=1,
+    double_buffer=true,
+    no_buffers=true,
+    imlib_cache_size=10,
+    
+    draw_shades=false,
+    draw_outline=false,
+    draw_borders=false,
+    draw_graph_borders=false,
+    default_graph_height=26,
+    default_graph_width=80,
+    show_graph_scale=false,
+    show_graph_range=false,
+    gap_x = 50,
+    gap_y = 70,
+    own_window=true,
+    own_window_type="override",
+    own_window_transparent=false,
+    own_window_hints="undecorated,below,sticky,skip_taskbar,skip_pager",
+    own_window_argb_visual=true,
+    own_window_argb_value=110,
+    border_inner_margin=10,
+    border_outer_margin=10,
+    alignment="top_right",
+    text_buffer_size=256,
+    override_utf8_locale=true,
+    default_color="FFFFFF",
+    color1="FFFFFF",
+    color2="FFFFFF",
+    uppercase=false
+};
+
+conky.text = [[
+${execpi 60 TODAY=`date +%_d`; cal -n 2 | sed "0,/$TODAY/s//\$\{color red\}$TODAY\$\{color white\}/g"}
+]];

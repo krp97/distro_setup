@@ -1,0 +1,20 @@
+#!/bin/bash
+
+if [[ -t 1 ]]; then
+    ncolors=$(tput colors)
+    if test -n "$ncolors" && test $ncolors -ge 8; then
+        bold="$(tput bold)"
+        normal="$(tput sgr0)"
+        blue="$(tput setaf 4)"
+        white="$(tput setaf 7)"
+    fi
+fi
+
+today=$(date +"%d")
+
+if [[ $today > 20 ]]; then
+    # Replaces the first occurence of $today with a colored version.
+    cal -n 2 |  sed "0,/$today/s//$bold$blue$today$white/g"
+else
+    cal | sed "0,/$today/s//$bold$blue$today$white/g"
+fi

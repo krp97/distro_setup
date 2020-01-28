@@ -1,0 +1,38 @@
+conky.config = {
+    background = true,
+    font = 'FuraCode Nerd Font:pixelsize=20',
+    use_xft = true,
+    xftalpha = 1.0,
+    update_interval = 1,
+    total_run_times = 0,
+    own_window = true,
+    own_window_transparent = false,
+    own_window_type = 'override',
+    own_window_class = 'Conky',
+    own_window_argb_visual = true,
+    own_window_argb_value = 110,
+    own_window_hints = 'undecorated,below,skip_taskbar,skip_pager',
+    double_buffer = true,
+    draw_shades = false,
+    draw_outline = false,
+    draw_borders = false,
+    draw_graph_borders = true,
+    stippled_borders = 0,
+    border_width = 0,
+    default_color = '#BEC8CB',
+    default_shade_color = '#BEC8CB',
+    default_outline_color = '#BEC8CB',
+    alignment = 'top_right',
+    gap_x = 615,
+    gap_y = 70,
+    use_spacer = 'none',
+    uppercase = false,
+    border_inner_margin=10,
+    border_outer_margin=10,
+    minimum_width=150,
+};
+
+conky.text = [[
+${color white}
+${exec date +"%r"}
+]];
