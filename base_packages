@@ -1,4 +1,3 @@
-rofi 
 cmake 
 gtest 
 clang 
@@ -8,8 +7,8 @@ texlive-most
 python 
 python-pip
 ksysguard
-qt5-base
 fzf
 ripgrep
 fd
+firefox
 
