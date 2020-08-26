@@ -12,4 +12,6 @@ ripgrep
 fd
 firefox
 zsh
+pavucontrol
+pavucontrol-applet
 
