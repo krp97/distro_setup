@@ -233,7 +233,7 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 bindsym $mod+0 mode "$mode_system"
 set $mode_system (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
 mode "$mode_system" {
-    bindsym l exec --no-startup-id i3exit lock, mode "default"
+    bindsym l exec --no-startup-id multilockscreen -l, mode "default"
     bindsym s exec --no-startup-id i3exit suspend, mode "default"
     bindsym u exec --no-startup-id i3exit switch_user, mode "default"
     bindsym e exec --no-startup-id i3exit logout, mode "default"
@@ -337,7 +337,7 @@ gaps outer -2
 # gaps outer all plus 5
 
 # Smart gaps (gaps used if only more than one container on the workspace)
-smart_gaps on
+# smart_gaps on
 
 # Smart borders (draw borders around container only if it is not the only container on this workspace) 
 # on|no_gaps (on=always activate and no_gaps=only activate if the gap size to the edge of the screen is 0)
@@ -349,24 +349,24 @@ set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
 set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
 bindsym $mod+Shift+g mode "$mode_gaps"
 
-bar {
-    status_command i3status
-    position bottom
-    mode hide
-    tray_output primary
-    hidden_state hide
-	font xft:Ubuntu Mono Regular 20, FontAwesome 10
+# bar {
+#     status_command i3status
+#     position bottom
+#     mode dock
+#     tray_output primary
+#     hidden_state hide
+# 	font xft:Ubuntu Mono Regular 20, FontAwesome 10
 
-        colors {
-            background #2f343f
-            statusline #2f343f
-            separator #4b5262
-            focused_workspace       #2f343f #bf616a #d8dee8
-            active_workspace        #2f343f #2f343f #d8dee8
-            inactive_workspace      #2f343f #2f343f #d8dee8
-            urgent_workspacei       #2f343f #ebcb8b #2f343f
-        }
-}
+#         colors {
+#             background #171717
+#             statusline #171717
+#             separator #4b5262
+#             focused_workspace       #171717 #58486e #d8dee8
+#             active_workspace        #171717 #171717 #d8dee8
+#             inactive_workspace      #171717 #171717 #d8dee8
+#             urgent_workspace       #171717 #58486e #d8dee8
+#         }
+# }
 
 mode "$mode_gaps" {
         bindsym o      mode "$mode_gaps_outer"
@@ -399,10 +399,29 @@ mode "$mode_gaps_outer" {
         bindsym Escape mode "default"
 }
 
-exec --no-startup-id picom --experimental-backends --config ~/.config/picom.conf
-exec_always --no-startup-id /home/desktop/.screenlayout/default.sh
-exec --no-startup-id nm-applet --sm-disable
+
+# Pulse Audio controls
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5%
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle
+
+# Sreen brightness controls
+bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
+bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
+
+# Media player controls
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioPause exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
 
 new_window 1pixel
 for_window [class=".*"] border 1px
+
+exec --no-startup-id picom --experimental-backends --config ~/.config/picom.conf
+exec --no-startup-id sh /home/desktop/.screenlayout/default.sh
+exec --no-startup-id nm-applet --sm-disable
+exec --no-startup-id pasystray
+
+exec_always --no-startup-id /home/desktop/.config/polybar/launch.sh
 

@@ -3,6 +3,7 @@
  * Rofi version: 1.5.4-dev
  **/
 * {
+    background:                  #232426D0;
     red:                         rgba ( 220, 50, 47, 100 % );
     selected-active-foreground:  var(background);
     lightfg:                     #69577a;
@@ -16,7 +17,6 @@
     blue:                        rgba ( 38, 139, 210, 100 % );
     urgent-background:           var(background);
     selected-normal-foreground:  var(lightbg);
-    background:                  #232426;
     selected-active-background:  var(blue);
     active-background:           var(background);
     selected-normal-background:  var(lightfg);
@@ -26,12 +26,9 @@
     text-color: var(normal-foreground);
 }
 element {
-    padding: 2px ;
-    spacing: 5px ;
-    border:  0;
+    padding: 2px;
 }
 element normal.normal {
-    background-color: var(normal-background);
     text-color:       var(normal-foreground);
 }
 element selected.normal {
@@ -50,11 +47,10 @@ element-icon {
     text-color:       inherit;
 }
 window {
-    padding:          5;
+    padding:          15px;
     background-color: var(background);
-    border:           3;
-        width:600;
-    height:300;
+    width: 600;
+    height: 320;
 }
 mainbox {
     padding: 0;
@@ -66,10 +62,9 @@ message {
     border:       2px dash 0px 0px ;
 }
 listview {
-    padding:      2px 0px 0px ;
+    padding:      5px 0px 0px ;
     scrollbar:    true;
     border-color: var(separatorcolor);
-    spacing:      2px ;
     fixed-height: 0;
 }
 button {
@@ -81,21 +76,16 @@ button selected {
     text-color:       var(selected-normal-foreground);
 }
 inputbar {
-    padding:    0px ;
-    spacing:    0px ;
     text-color: var(normal-foreground);
     children:   [prompt, textbox-prompt-colon, entry];
 }
 case-indicator {
-    spacing:    0;
     text-color: var(normal-foreground);
 }
 prompt {
     enabled: false;
 }
 entry {
-    placeholder-color: rgba ( 128, 128, 128, 100 % );
-    spacing:           0;
     placeholder:       "Launch application";
     text-color:        var(normal-foreground);
 }
